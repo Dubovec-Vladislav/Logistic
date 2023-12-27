@@ -1,8 +1,3 @@
-// Вспомогательная функция для вычисления фактической грузоподъемности
-function getActualLiftingCapacity() {
-  return transportCharacteristics.liftingCapacity * transportCharacteristics.capacityUtilizationFactor;
-}
-
 // Вспомогательная функция для получения отсортированного списка очередности объезда
 function getSortedQueueList(pointsInfo) {
   return Object.fromEntries(
@@ -15,7 +10,7 @@ function getSortedQueueList(pointsInfo) {
 
 // ---- Планирование последних поездок и возвращения в депо ---- //
 function planLastTripsAndReturn(cars, points) {
-  const lastPoint = points.pop();
+  const lastPoint = points[2];
   const numberOfTripsToLastPoint = lastPoint.КоличествоЕздок / cars.length;
 
   let timeForLastTripsAndToDepot = 0;

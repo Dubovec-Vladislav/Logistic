@@ -4,7 +4,6 @@ const outputElement = document.getElementById('output');
 // Создаем HTML-строку на основе данных
 let distance = 0;
 let htmlString = '<ul class="list">';
-console.log(cars);
 cars.forEach((item) => {
   distance += item.Пробег;
   htmlString += '<li class="item">';

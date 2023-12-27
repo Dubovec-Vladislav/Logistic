@@ -21,10 +21,12 @@ const transportCharacteristics = {
   capacityUtilizationFactor: 0.9,
   loadingAndUnloadingTime: 0.33,
 };
+
+const actualLiftingCapacity = transportCharacteristics.liftingCapacity * transportCharacteristics.capacityUtilizationFactor;
 // ----------------------------------------- //
 
 // ------- 1. Определение количество ездок в каждую точку ------ //
-const trips = pointsInfo.map((point) => Math.ceil(point.need / getActualLiftingCapacity()));
+const trips = pointsInfo.map((point) => Math.ceil(point.need / actualLiftingCapacity));
 // ------------------------------------------------------------- //
 
 // ------------- 2. Определение очередности объезда ------------ //
