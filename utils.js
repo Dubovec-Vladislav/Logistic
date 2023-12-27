@@ -10,7 +10,7 @@ function getSortedQueueList(pointsInfo) {
 
 // ---- Планирование последних поездок и возвращения в депо ---- //
 function planLastTripsAndReturn(cars, points) {
-  const lastPoint = points[2];
+  const lastPoint = points.pop();
   const numberOfTripsToLastPoint = lastPoint.КоличествоЕздок / cars.length;
 
   let timeForLastTripsAndToDepot = 0;
