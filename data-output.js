@@ -3,24 +3,25 @@ const outputElement = document.getElementById('output');
 
 // Создаем HTML-строку на основе данных
 let distance = 0;
-let htmlString = '<ul>';
+let htmlString = '<ul class="list">';
+console.log(cars);
 cars.forEach((item) => {
   distance += item.Пробег;
-  htmlString += '<li>';
-  htmlString += `<strong>Название:</strong> ${item['Название']}, `;
-  htmlString += `<strong>Время работы на маршруте:</strong> ${8 - item['ОставшеесяВремяРаботы'].toFixed(2)} час(-а), `;
-  htmlString += `<strong>Пробег:</strong> ${item['Пробег']} км, `;
+  htmlString += '<li class="item">';
+  htmlString += `<div class="title">Название: <span>${item['Название']}</span></div>`;
+  htmlString += `<div class="time">Время работы на маршруте: <span>${(8 - item['ОставшеесяВремяРаботы']).toFixed(2)}</span> час(-а)</div>`;
+  htmlString += `<div class="distance">Пробег: <span>${item['Пробег']}</span> км</div>`;
 
   // Форматируем данные о маршруте
   const routeString = Object.entries(item['Маршрут'])
     .map(([point, distance]) => `${point} - ${distance} поездок(-ки)`)
     .join(', ');
 
-  htmlString += `<strong>Маршрут:</strong> ${routeString}`;
+  htmlString += `<div class="route">Маршрут: <span>${routeString}</span></div>`;
   htmlString += '</li>';
 });
-htmlString += `<strong>Общий пробег:</strong> ${distance}`;
 htmlString += '</ul>';
+htmlString += `<div class="total-distance">Общий пробег: <span>${distance}</span></div>`;
 
 // Вставляем HTML в элемент
 outputElement.innerHTML = htmlString;
