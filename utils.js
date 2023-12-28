@@ -10,8 +10,8 @@ function getSortedQueueList(pointsInfo) {
 
 // ---- Планирование последних поездок и возвращения в депо ---- //
 function planLastTripsAndReturn(cars, points) {
-  const lastPoint = points.pop();
-  const numberOfTripsToLastPoint = lastPoint.КоличествоЕздок / cars.length;
+  const lastPoint = points[points.length - 1];
+  const numberOfTripsToLastPoint = Math.floor(lastPoint.КоличествоЕздок / cars.length) || 1;
 
   let timeForLastTripsAndToDepot = 0;
   let mileageToLastPointAndToDepot = 0;
@@ -39,7 +39,7 @@ function planLastTripsAndReturn(cars, points) {
     car.Маршрут = { ...route };
   });
 
-  lastPoint.КоличествоЕздок = 0;
+  lastPoint.КоличествоЕздок -= numberOfTripsToLastPoint * NUMBER_OF_CARS;
 }
 // ------------------------------------------------------------- //
 
@@ -47,8 +47,8 @@ function planLastTripsAndReturn(cars, points) {
 function planOtherRoutes(cars, points) {
   for (const point of points) {
     for (const car of cars) {
-      let tripCounter = 0;
-
+      let tripCounter = car.Маршрут[point.Название] ? car.Маршрут[point.Название] : 0; // Если у нас уже были ездки на этой машине в этот пункт,
+                                                                                       //  то счетчик начинается с их количества (а не с 0)
       while (point.КоличествоЕздок > 0 && car.ОставшеесяВремяРаботы > 0) {
         tripCounter += 1;
         const time = (point['РасстояниеОтКарьераДоЭтойТочки'] * 2) / transportCharacteristics.speed + transportCharacteristics.loadingAndUnloadingTime;
