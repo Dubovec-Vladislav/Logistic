@@ -1,4 +1,4 @@
-const NUMBER_OF_CARS = 3;
+const NUMBER_OF_CARS = 4;
 
 // ---------- Информация о точках ---------- //
 const depotToCareerDistance = 6; // Расстояние от депо до карьера
