@@ -1,4 +1,4 @@
-const NUMBER_OF_CARS = 4;
+let NUMBER_OF_CARS = 3;
 
 // ---------- Информация о точках ---------- //
 const depotToCareerDistance = 6; // Расстояние от депо до карьера
@@ -39,6 +39,7 @@ const points = pointsInfo.map((point, index) => ({
   РасстояниеОтКарьераДоЭтойТочки: point.careerTo,
   КоличествоЕздок: trips[index],
   ОчередностьОбъезда: queueList[`Point${index + 1}`],
+  ОставшаясяПотребность: point.need,
 }));
 
 // Сортировка точек по порядку объезда
@@ -61,4 +62,6 @@ planLastTripsAndReturn(cars, points);
 // Планирование других маршрутов для автомобилей
 planOtherRoutes(cars, points);
 
+// Планирование других маршрутов для автомобилей
+const percent = calculateCompletionPercentage(points, pointsInfo);
 // ------------------------------------------------------------- //

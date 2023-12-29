@@ -21,6 +21,7 @@ cars.forEach((item) => {
 });
 htmlString += '</ul>';
 htmlString += `<div class="total-distance">Общий пробег: <span>${distance}</span></div>`;
+htmlString += `<div class="total-distance">% Доставки: <span>${percent.toFixed(2)}%</span></div>`;
 
 // Вставляем HTML в элемент
 outputElement.innerHTML = htmlString;

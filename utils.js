@@ -33,15 +33,17 @@ function planLastTripsAndReturn(cars, points) {
     route[lastPoint.Название] = tripCounter;
   }
 
-  cars.forEach((car, index) => {
-    if (index < lastPoint.КоличествоЕздок) { // Если мы можем дать машине хоть одну поездку в последний пункт, то мы ее добавляем
-      car.ОставшеесяВремяРаботы -= timeForLastTripsAndToDepot;
-      car.Пробег += mileageToLastPointAndToDepot;
-      car.Маршрут = { ...route };
+  for (let index = 0; index < cars.length; index++) {
+    if (index < lastPoint.КоличествоЕздок) {
+      cars[index].ОставшеесяВремяРаботы -= timeForLastTripsAndToDepot;
+      cars[index].Пробег += mileageToLastPointAndToDepot;
+      cars[index].Маршрут = { ...route };
     }
-  });
+  }
 
   lastPoint.КоличествоЕздок -= numberOfTripsToLastPoint * NUMBER_OF_CARS;
+  lastPoint.ОставшаясяПотребность -= numberOfTripsToLastPoint * NUMBER_OF_CARS * actualLiftingCapacity;
+  if (lastPoint.ОставшаясяПотребность < 0) lastPoint.ОставшаясяПотребность = 0;
 }
 // ------------------------------------------------------------- //
 
@@ -61,9 +63,25 @@ function planOtherRoutes(cars, points) {
           car.Пробег += mileage;
           car.Маршрут[point.Название] = tripCounter;
           point.КоличествоЕздок -= 1;
+          point.ОставшаясяПотребность -= actualLiftingCapacity;
+          if (point.ОставшаясяПотребность < 0) point.ОставшаясяПотребность = 0;
         } else break;
       }
     }
   }
+}
+// ------------------------------------------------------------- //
+
+// ------- Планирование других маршрутов для автомобилей ------- //
+function calculateCompletionPercentage(points, pointsInfo) {
+  let totalNeed = 0;
+  let fulfilledNeed = 0;
+
+  // Проходимся по каждому объекту
+  points.forEach((point) => (fulfilledNeed += point.ОставшаясяПотребность));
+  pointsInfo.forEach((point) => (totalNeed += point.need));
+
+  // Рассчитываем процент выполнения
+  return 100 - fulfilledNeed / totalNeed * 100;
 }
 // ------------------------------------------------------------- //
