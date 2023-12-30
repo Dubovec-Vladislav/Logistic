@@ -39,6 +39,7 @@ const points = pointsInfo.map((point, index) => ({
   РасстояниеОтКарьераДоЭтойТочки: point.careerTo,
   КоличествоЕздок: trips[index],
   ОчередностьОбъезда: queueList[`Point${index + 1}`],
+  Потребность: needs[index],
   ОставшаясяПотребность: point.need,
 }));
 
@@ -61,6 +62,8 @@ planLastTripsAndReturn(cars, points);
 
 // Планирование других маршрутов для автомобилей
 planOtherRoutes(cars, points);
+
+swapFirstRouteKeyValue(cars);
 
 // Планирование других маршрутов для автомобилей
 const percent = calculateCompletionPercentage(points, pointsInfo);

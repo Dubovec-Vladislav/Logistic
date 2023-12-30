@@ -8,6 +8,26 @@ function getSortedQueueList(pointsInfo) {
   );
 }
 
+// Вспомогательная для смены первого и последнего пункта маршрута местами
+function swapFirstRouteKeyValue(cars) {
+  cars.forEach((car) => {
+    const route = car.Маршрут;
+    const keys = Object.keys(route);
+    const values = Object.values(route);
+
+    // Меняем местами первый и последний ключ
+    [keys[0], keys[keys.length - 1]] = [keys[keys.length - 1], keys[0]];
+    // Меняем местами первое и последнее значение
+    [values[0], values[values.length - 1]] = [values[values.length - 1], values[0]];
+
+    // Обновляем поле "Маршрут" в объекте
+    car.Маршрут = keys.reduce((acc, key, index) => {
+      acc[key] = values[index];
+      return acc;
+    }, {});
+  });
+}
+
 // ---- Планирование последних поездок и возвращения в депо ---- //
 
 // Функция для расчета времени и пробега до последней точки
@@ -21,8 +41,9 @@ function calculateTimeAndMileageToLastPoint(lastPoint, transport, numberOfTrips)
     const distanceToCareer = lastPoint.РасстояниеОтКарьераДоЭтойТочки;
     const distanceToDepot = lastPoint.РасстояниеОтДепоДоЭтойТочки;
 
-    const distanceMultiplier = isLastTrip ? 1 : 2;
-    time += (distanceToCareer * distanceMultiplier + distanceToDepot) / transport.speed + transport.loadingAndUnloadingTime;
+    time += isLastTrip
+      ? (distanceToCareer + distanceToDepot) / transport.speed + transport.loadingAndUnloadingTime
+      : (distanceToCareer * 2) / transport.speed + transport.loadingAndUnloadingTime;
     mileage += isLastTrip ? distanceToCareer + distanceToDepot : distanceToCareer * 2;
 
     route[lastPoint.Название] = i + 1;
@@ -32,8 +53,8 @@ function calculateTimeAndMileageToLastPoint(lastPoint, transport, numberOfTrips)
 }
 
 // Функция для обновления данных по каждому автомобилю
-function updateCarData(cars, time, mileage, route) {
-  cars.slice(0, cars.length).forEach((car) => {
+function updateCarData(cars, lastPoint, time, mileage, route) {
+  cars.slice(0, lastPoint.КоличествоЕздок).forEach((car) => {
     car.ОставшеесяВремяРаботы -= time;
     car.Пробег += mileage;
     car.Маршрут = { ...route };
@@ -43,6 +64,7 @@ function updateCarData(cars, time, mileage, route) {
 // Функция для обновления данных по последней точке
 function updateLastPointData(lastPoint, numberOfTrips) {
   lastPoint.КоличествоЕздок -= numberOfTrips * cars.length;
+  if (lastPoint.КоличествоЕздок < 0) lastPoint.КоличествоЕздок = 0;
   lastPoint.ОставшаясяПотребность -= numberOfTrips * cars.length * actualLiftingCapacity;
   if (lastPoint.ОставшаясяПотребность < 0) lastPoint.ОставшаясяПотребность = 0;
 }
@@ -50,10 +72,10 @@ function updateLastPointData(lastPoint, numberOfTrips) {
 // Главная функция для планирование последних поездок и возвращения в депо
 function planLastTripsAndReturn(cars, points) {
   const lastPoint = points[points.length - 1];
-  const numberOfTripsToLastPoint = Math.floor(lastPoint.КоличествоЕздок / cars.length) || 1;
+  const numberOfTripsToLastPoint = NUMBER_OF_CARS === points.length ? Math.floor(lastPoint.КоличествоЕздок / cars.length) || 1 : 1;
 
   const { time, mileage, route } = calculateTimeAndMileageToLastPoint(lastPoint, transport, numberOfTripsToLastPoint);
-  updateCarData(cars, time, mileage, route);
+  updateCarData(cars, lastPoint, time, mileage, route);
   updateLastPointData(lastPoint, numberOfTripsToLastPoint);
 }
 // ------------------------------------------------------------- //
@@ -64,6 +86,7 @@ function planOtherRoutes(cars, points) {
     for (const car of cars) {
       let tripCounter = car.Маршрут[point.Название] ? car.Маршрут[point.Название] : 0; // Если у нас уже были ездки на этой машине в этот пункт,
       //  то счетчик начинается с их количества (а не с 0)
+      console.log(tripCounter);
       while (point.КоличествоЕздок > 0 && car.ОставшеесяВремяРаботы > 0) {
         tripCounter += 1;
         const time = (point['РасстояниеОтКарьераДоЭтойТочки'] * 2) / transport.speed + transport.loadingAndUnloadingTime;

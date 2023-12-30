@@ -1,7 +1,87 @@
 .wrapper {
-  padding: 60px 80px;
+  padding: 3vw 3.5vw;
 }
 
 .main__block {
   display: flex;
+  margin: 0px -15px 3vw -15px;
+  flex-wrap: wrap;
+}
+
+.cars__list,
+.points__list {
+  flex: 0 1 50%;
+  padding: 0px 15px;
+
+  @media (max-width: 920px) {
+    flex: 0 1 100%;
+  }
+}
+
+.item {
+  padding: 1.5vw;
+  background-color: #f1f1f1;
+  margin: 0px 0px 2vw 0px;
+}
+
+.item:last-child {
+  margin: 0px 0px 0px 0px;
+}
+
+.title {
+  color: #000;
+  margin: 0px 0px 1.25vw 0px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1.35px;
+  text-transform: uppercase;
+}
+
+.point {
+  color: #000;
+  margin: 0px 0px 0.5vw 0px;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.75px;
+}
+
+.point span {
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.75px;
+}
+
+.cars__list-route {
+  padding: 0.5vw 0px 0px 0px;
+}
+
+.cars__list-route-item {
+  position: relative;
+  margin: 0px 0px 6px 0px;
+  padding: 0px 0px 0px 20px;
+  white-space: nowrap;
+}
+
+.cars__list-route-item::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  background-color: #000;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.total__inf {
+  background: #f1f1f1;
+  margin: 0px 0px 1vw 0px;
+  padding: 1vw;
+  color: #000;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1.35px;
+  text-transform: uppercase;
 }
