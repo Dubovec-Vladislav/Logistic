@@ -15,14 +15,14 @@ const pointsInfo = Array.from({ length: depotToPointsDistances.length }, (_, ind
 // ----------------------------------------- //
 
 // -------- Транспортные характеристики ------ //
-const transportCharacteristics = {
+const transport = {
   speed: 40,
   liftingCapacity: 6,
   capacityUtilizationFactor: 0.9,
   loadingAndUnloadingTime: 0.33,
 };
 
-const actualLiftingCapacity = transportCharacteristics.liftingCapacity * transportCharacteristics.capacityUtilizationFactor;
+const actualLiftingCapacity = transport.liftingCapacity * transport.capacityUtilizationFactor;
 // ----------------------------------------- //
 
 // ------- 1. Определение количество ездок в каждую точку ------ //
