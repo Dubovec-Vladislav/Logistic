@@ -1,6 +1,5 @@
 // Получаем элемент, в который будем вставлять данные
 const outputElement = document.querySelector('.wrapper');
-console.log(cars[1].Маршрут);
 // Создаем HTML-строку на основе данных
 let distance = 0;
 let htmlString = '<div class="main__block">';

@@ -86,11 +86,10 @@ function planOtherRoutes(cars, points) {
     for (const car of cars) {
       let tripCounter = car.Маршрут[point.Название] ? car.Маршрут[point.Название] : 0; // Если у нас уже были ездки на этой машине в этот пункт,
       //  то счетчик начинается с их количества (а не с 0)
-      console.log(tripCounter);
       while (point.КоличествоЕздок > 0 && car.ОставшеесяВремяРаботы > 0) {
         tripCounter += 1;
-        const time = (point['РасстояниеОтКарьераДоЭтойТочки'] * 2) / transport.speed + transport.loadingAndUnloadingTime;
         const mileage = point['РасстояниеОтКарьераДоЭтойТочки'] * 2;
+        const time = mileage / transport.speed + transport.loadingAndUnloadingTime;
 
         if (car.ОставшеесяВремяРаботы - time > 0) {
           car.ОставшеесяВремяРаботы -= time;
