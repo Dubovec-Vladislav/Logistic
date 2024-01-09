@@ -8,7 +8,33 @@
     <link rel="stylesheet" href="./null-style.css" />
   </head>
   <body>
-    <div class="wrapper"></div>
+    <div class="wrapper">
+      <div class="main__form">
+        <h2>Введите количество точек:</h2>
+        <input type="number" id="pointCount" min="1" oninput="createPointInputs()" />
+
+        <div id="pointInputs"></div>
+
+        <h2>Введите количество машин:</h2>
+        <input type="number" id="carCount" min="1" />
+
+        <h2>Характеристики транспорта:</h2>
+        <label>Скорость (км/ч):</label>
+        <input type="number" id="speed" min="1" value="40" />
+
+        <label>Грузоподъемность (т):</label>
+        <input type="number" id="liftingCapacity" min="1" value="6" />
+
+        <label>Коэффициент использования грузоподъемности:</label>
+        <input type="number" id="capacityUtilizationFactor" min="1" value="0.9" />
+
+        <label>Время погрузки/разгрузки (ч):</label>
+        <input type="number" id="loadingAndUnloadingTime" min="1" value="0.33" />
+
+        <button onclick="calculateData()">Рассчитать</button>
+      </div>
+      <div class="main__block"></div>
+    </div>
     <script src="./utils.js" defer></script>
     <script src="./main-script.js" defer></script>
     <script src="./data-output.js" defer></script>

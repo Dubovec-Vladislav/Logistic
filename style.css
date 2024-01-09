@@ -2,7 +2,14 @@
   padding: 3vw 3.5vw;
 }
 
+.main__form {
+  margin: 0px 0px 2vw 0px;
+}
+
 .main__block {
+}
+
+.main__body {
   display: flex;
   margin: 0px -15px 3vw -15px;
   flex-wrap: wrap;
@@ -84,4 +91,15 @@
   font-weight: 800;
   letter-spacing: -1.35px;
   text-transform: uppercase;
+}
+
+input {
+  margin: 5px 0px;
+  border: solid 2px #000;
+}
+
+button {
+  padding: 5px 10px;
+  border: solid 1px #000;
+  cursor: pointer;
 }
