@@ -1,8 +1,10 @@
 let NUMBER_OF_CARS;
+let WORK_TIME;
 
 function calculateData() {
   const pointCount = document.getElementById('pointCount').value;
   NUMBER_OF_CARS = parseInt(document.getElementById('carCount').value);
+  WORK_TIME = parseInt(document.getElementById('workTime').value);
 
   const depotToPointsDistances = [];
   const careerToPointsDistances = [];
@@ -68,7 +70,7 @@ function main(depotToPointsDistances, careerToPointsDistances, needs, transport)
   // Информация о машинах
   const cars = Array.from({ length: NUMBER_OF_CARS }, (_, index) => ({
     'Название': `Машина ${index + 1}`,
-    'ОставшеесяВремяРаботы': 8,
+    'ОставшеесяВремяРаботы': WORK_TIME,
     'Пробег': 0,
     'Маршрут': {},
   }));
