@@ -6,15 +6,16 @@ function createPointInputs() {
 
   for (let i = 0; i < pointCount; i++) {
     inputsHtml += `
-      <h3>Точка ${i + 1}</h3>
-      <label>Расстояние от депо:</label>
-      <input type="number" id="depotDistance${i}" min="1" value="10">
-
-      <label>Расстояние от карьера:</label>
-      <input type="number" id="careerDistance${i}" min="1" value="10">
-
-      <label>Потребность в тоннах груза:</label>
-      <input type="number" id="needs${i}" min="1" value="30">
+    <div class="main__form-row">
+      <div class="main__form-field">
+        <div class="main__form-label">Точка ${i + 1}</div>
+        <div class="main__form-field-inputs">
+          <input class="main__form-field-input" type="number" id="depotDistance${i}" min="1" placeholder="Расстояние от депо">
+          <input class="main__form-field-input" type="number" id="careerDistance${i}" min="1" placeholder="Расстояние от карьера">
+          <input class="main__form-field-input" type="number" id="needs${i}" min="1" placeholder="Потребность в тоннах груза">
+        </div>
+      </div>
+    </div>
     `;
   }
 
