@@ -1,39 +1,4 @@
-let NUMBER_OF_CARS;
-let WORK_TIME;
-
-function calculateData() {
-  const pointCount = document.getElementById('pointCount').value;
-  NUMBER_OF_CARS = parseInt(document.getElementById('carCount').value);
-  WORK_TIME = parseInt(document.getElementById('workTime').value);
-
-  const depotToPointsDistances = [];
-  const careerToPointsDistances = [];
-  const needs = [];
-
-  for (let i = 0; i < pointCount; i++) {
-    const depotDistance = parseFloat(document.getElementById(`depotDistance${i}`).value);
-    const careerDistance = parseFloat(document.getElementById(`careerDistance${i}`).value);
-    const pointNeeds = parseFloat(document.getElementById(`needs${i}`).value);
-    depotToPointsDistances.push(depotDistance);
-    careerToPointsDistances.push(careerDistance);
-    needs.push(pointNeeds);
-  }
-
-  const transport = {
-    speed: parseFloat(document.getElementById('speed').value),
-    liftingCapacity: parseFloat(document.getElementById('liftingCapacity').value),
-    capacityUtilizationFactor: parseFloat(document.getElementById('capacityUtilizationFactor').value),
-    loadingAndUnloadingTime: parseFloat(document.getElementById('loadingAndUnloadingTime').value),
-  };
-
-  main(depotToPointsDistances, careerToPointsDistances, needs, transport);
-}
-
-function main(depotToPointsDistances, careerToPointsDistances, needs, transport) {
-  // -------- Транспортные характеристики ------ //
-  const actualLiftingCapacity = transport.liftingCapacity * transport.capacityUtilizationFactor;
-  // ----------------------------------------- //
-
+function main(depotToPointsDistances, careerToPointsDistances, needs, transport, numberOfCars, workTime) {
   // ---------- Информация о точках ---------- //
   const pointsInfo = Array.from({ length: depotToPointsDistances.length }, (_, index) => ({
     name: `Пункт ${index + 1}`,
@@ -44,7 +9,7 @@ function main(depotToPointsDistances, careerToPointsDistances, needs, transport)
   // ----------------------------------------- //
 
   // ------- 1. Определение количество ездок в каждую точку ------ //
-  const trips = pointsInfo.map((point) => Math.ceil(point.need / actualLiftingCapacity));
+  const trips = pointsInfo.map((point) => Math.ceil(point.need / transport.actualLiftingCapacity));
   // ------------------------------------------------------------- //
 
   // ------------- 2. Определение очередности объезда ------------ //
@@ -68,24 +33,22 @@ function main(depotToPointsDistances, careerToPointsDistances, needs, transport)
   // --- 3. Планирование последних поездок и возвращения в депо -- //
 
   // Информация о машинах
-  const cars = Array.from({ length: NUMBER_OF_CARS }, (_, index) => ({
+  const cars = Array.from({ length: numberOfCars }, (_, index) => ({
     'Название': `Машина ${index + 1}`,
-    'ОставшеесяВремяРаботы': WORK_TIME,
+    'ОставшеесяВремяРаботы': workTime,
     'Пробег': 0,
     'Маршрут': {},
   }));
 
   // Планирование последних поездок и возвращения в депо
-  planLastTripsAndReturn(cars, points, transport, actualLiftingCapacity);
-
+  planLastTripsAndReturn(cars, points, transport, transport.actualLiftingCapacity, numberOfCars);
   // Планирование других маршрутов для автомобилей
-  planOtherRoutes(cars, points, transport, actualLiftingCapacity);
-
+  planOtherRoutes(cars, points, transport, transport.actualLiftingCapacity);
+  // Смена мест первого и последнего пункта в маршруте (потому что алгоритм начинают работу с определения последнего пункта маршрута)
   swapFirstRouteKeyValue(cars);
-
-  // Планирование других маршрутов для автомобилей
+  // Расчет процента выполннения заказов
   const percent = calculateCompletionPercentage(points, pointsInfo);
-
-  dataOutput(cars, points, percent);
+  // Вывод данных
+  dataOutput(cars, points, workTime, percent);
   // ------------------------------------------------------------- //
 }

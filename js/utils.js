@@ -1,3 +1,4 @@
+// Функция для создания полей ввода для точек
 function createPointInputs() {
   const pointCount = document.getElementById('pointCount').value;
 
@@ -25,7 +26,7 @@ function createPointInputs() {
   // const needs = [30, 40, 50]; // Потребности для каждой точки
 }
 
-// Вспомогательная функция для получения отсортированного списка очередности объезда
+// Функция для получения отсортированного списка очередности объезда
 function getSortedQueueList(pointsInfo) {
   return Object.fromEntries(
     pointsInfo
@@ -35,7 +36,7 @@ function getSortedQueueList(pointsInfo) {
   );
 }
 
-// Вспомогательная для смены первого и последнего пункта маршрута местами
+// Функция для смены первого и последнего пункта маршрута местами
 function swapFirstRouteKeyValue(cars) {
   cars.forEach((car) => {
     if (Object.keys(car.Маршрут).length !== 0) {
@@ -83,26 +84,25 @@ function calculateTimeAndMileageToLastPoint(lastPoint, transport, numberOfTrips)
 
 // Функция для обновления данных по каждому автомобилю
 function updateCarData(cars, lastPoint, time, mileage, route) {
-  cars.slice(0, lastPoint.КоличествоЕздок).forEach((car) => {
-    car.ОставшеесяВремяРаботы -= time;
-    car.Пробег += mileage;
-    car.Маршрут = { ...route };
-  });
+  for (let i = 0; i < lastPoint.КоличествоЕздок; i++) {
+    if (i > cars.length - 1) break;
+    cars[i].ОставшеесяВремяРаботы -= time;
+    cars[i].Пробег += mileage;
+    cars[i].Маршрут = { ...route };
+  }
 }
 
 // Функция для обновления данных по последней точке
 function updateLastPointData(lastPoint, numberOfTrips, carsLength, actualLiftingCapacity) {
-  lastPoint.КоличествоЕздок -= numberOfTrips * carsLength;
-  if (lastPoint.КоличествоЕздок < 0) lastPoint.КоличествоЕздок = 0;
-  lastPoint.ОставшаясяПотребность -= numberOfTrips * carsLength * actualLiftingCapacity;
-  if (lastPoint.ОставшаясяПотребность < 0) lastPoint.ОставшаясяПотребность = 0;
+  lastPoint.КоличествоЕздок = Math.max(0, lastPoint.КоличествоЕздок - numberOfTrips * carsLength);
+  lastPoint.ОставшаясяПотребность = Math.max(0, lastPoint.ОставшаясяПотребность - numberOfTrips * carsLength * actualLiftingCapacity);
 }
 
 // Главная функция для планирование последних поездок и возвращения в депо
-function planLastTripsAndReturn(cars, points, transport, actualLiftingCapacity) {
+function planLastTripsAndReturn(cars, points, transport, actualLiftingCapacity, numberOfCars) {
   const lastPoint = points[points.length - 1];
-  const numberOfTripsToLastPoint = NUMBER_OF_CARS === points.length ? Math.floor(lastPoint.КоличествоЕздок / cars.length) || 1 : 1;
-  
+  const numberOfTripsToLastPoint = numberOfCars === points.length ? Math.floor(lastPoint.КоличествоЕздок / cars.length) || 1 : 1;
+
   const { time, mileage, route } = calculateTimeAndMileageToLastPoint(lastPoint, transport, numberOfTripsToLastPoint);
   updateCarData(cars, lastPoint, time, mileage, route);
   updateLastPointData(lastPoint, numberOfTripsToLastPoint, cars.length, actualLiftingCapacity);

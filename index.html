@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Logistic Project</title>
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="./null-style.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/null-style.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -21,16 +21,12 @@
         <h2>Характеристики транспорта:</h2>
         <label>Скорость (км/ч):</label>
         <input type="number" id="speed" min="1" value="40" />
-
         <label>Грузоподъемность (т):</label>
         <input type="number" id="liftingCapacity" min="1" value="6" />
-
         <label>Коэффициент использования грузоподъемности:</label>
         <input type="number" id="capacityUtilizationFactor" min="1" value="0.9" />
-
         <label>Общее время работы (ч):</label>
         <input type="number" id="workTime" min="1" value="8" />
-
         <label>Время погрузки/разгрузки (ч):</label>
         <input type="number" id="loadingAndUnloadingTime" min="1" value="0.33" />
 
@@ -38,8 +34,9 @@
       </div>
       <div class="main__block"></div>
     </div>
-    <script src="./utils.js" defer></script>
-    <script src="./main-script.js" defer></script>
-    <script src="./data-output.js" defer></script>
+    <script src="./js/data-input.js" defer></script>
+    <script src="./js/utils.js" defer></script>
+    <script src="./js/main-script.js" defer></script>
+    <script src="./js/data-output.js" defer></script>
   </body>
 </html>
