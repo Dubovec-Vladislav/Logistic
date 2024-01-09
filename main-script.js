@@ -1,4 +1,4 @@
-let NUMBER_OF_CARS = 3;
+let NUMBER_OF_CARS;
 
 function calculateData() {
   const pointCount = document.getElementById('pointCount').value;
